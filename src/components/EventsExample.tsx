@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Simulate} from "react-dom/test-utils";
 import click = Simulate.click;
 
@@ -6,13 +6,14 @@ const EventsExample = () => {
 
     const [value, setValium] = useState<string>('')
     const [isDrag, setIsDrag] = useState<boolean>(false)
+    const inputRef = useRef<HTMLInputElement>(null)
 
     const  changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValium(e.target.value)
     }
 
     const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-        console.log(value)
+        console.log(inputRef.current?.value)
     }
 
     const dragHandler = (e: React.DragEvent<HTMLDivElement>) => {
@@ -36,7 +37,8 @@ const EventsExample = () => {
 
     return (
         <div>
-            <input value={value} onChange={changeHandler} type="text" />
+            <input value={value} onChange={changeHandler} type="text" placeholder="Управляемый"/>
+            <input ref={inputRef} type="text" placeholder="Неуправляемый"/>
             <button onClick={clickHandler}>gaserg</button>
             <div onDrag={dragHandler} draggable style={{width: 200, height: 200, background: 'red'}}></div>
             <div
